@@ -1,7 +1,7 @@
 package HTTP::Server::Simple::Mason;
-use base qw/HTTP::Server::Simple/;
+use base qw/HTTP::Server::Simple::CGI/;
 use strict;
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 =head1 NAME
 
@@ -10,7 +10,7 @@ HTTP::Server::Simple::Mason - An abstract baseclass for a standalone mason serve
 
 =head1 VERSION
 
-This document describes HTTP::Server:Simple::Mason version 0.0.1
+This document describes HTTP::Server:Simple::Mason version 0.02
 
 
 =head1 SYNOPSIS
@@ -43,19 +43,26 @@ See L<HTTP::Server::Simple> and the documentation below.
 
 use HTML::Mason::CGIHandler;
 
-sub handler {
+sub mason_handler {
     my $self = shift;
-    $self->{'handler'} ||= $self->new_handler;
-    return $self->{'handler'};
+    $self->{'mason_handler'} ||= $self->new_handler;
+    return $self->{'mason_handler'};
 }
+
+=head2 handle_request CGI
+
+Called with a CGI object. Invokes mason and runs the request
+
+=cut
 
 sub handle_request {
     my $self = shift;
     my $cgi  = shift;
+
     if (
-        ( !$self->handler->interp->comp_exists( $cgi->path_info ) )
+        ( !$self->mason_handler->interp->comp_exists( $cgi->path_info ) )
         && (
-            $self->handler->interp->comp_exists(
+            $self->mason_handler->interp->comp_exists(
                 $cgi->path_info . "/index.html"
             )
         )
@@ -69,13 +76,16 @@ HTTP/1.0 200 OK
 Content-Type: text/html
 EOF
 
-    eval { $self->handler->handle_cgi_object($cgi); };
-
+    eval { $self->mason_handler->handle_cgi_object($cgi); };
 }
 
 sub new_handler {
     my $self    = shift;
-    my $handler = HTML::Mason::CGIHandler->new( $self->handler_config, @_ );
+    my $handler = HTML::Mason::CGIHandler->new(
+        $self->default_mason_config,
+        $self->mason_config,
+        @_
+    );
 
     $handler->interp->set_escape(
         h => \&HTTP::Server::Simple::Mason::escape_utf8 );
@@ -84,7 +94,23 @@ sub new_handler {
     return ($handler);
 }
 
-sub handler_config {
+=head2 mason_config
+
+Subclass-defined mason handler configuration
+
+=cut
+
+sub mason_config {
+    (); # user-defined
+}
+
+=head2 default_mason_config
+
+Default mason handler configuration
+
+=cut
+
+sub default_mason_config {
     (
         default_escape_flags => 'h',
 
