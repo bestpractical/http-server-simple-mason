@@ -52,6 +52,12 @@ wrap 'HTML::Mason::FakeApache::send_http_header', pre => sub {
     print STDOUT "HTTP/1.0 $status\n";
 };
 
+=head2 mason_handler 
+
+Returns the server's C<HTML::Mason::CGIHandler> object.  The first time
+this method is called, it creates a new handler by calling C<new_handler>.
+
+=cut
 
 sub mason_handler {
     my $self = shift;
@@ -85,9 +91,34 @@ sub handle_request {
     eval { my $m = $self->mason_handler;
 
         $m->handle_cgi_object($cgi) };
+
+    if ($@) {
+	$self->handle_error($@);
+    } 
 }
 
+=head2 handle_error ERROR
 
+If the call to C<handle_request> dies, C<handle_error> is called with the
+exception (that is, C<$@>).  By default, it does nothing; it can be overriden
+by your subclass.
+
+=cut
+
+sub handle_error {
+    my $self = shift;
+
+    return;
+} 
+
+=head2 new_handler
+
+Creates and returns a new C<HTML::Mason::CGIHandler>, with configuration
+specified by the C<default_mason_config> and C<mason_config> methods.
+You don't need to call this method yourself; C<mason_handler> will automatically
+call it the first time it is called.
+
+=cut
 
 sub new_handler {
     my $self    = shift;
