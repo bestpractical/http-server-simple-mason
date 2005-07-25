@@ -1,3 +1,7 @@
+0.06 Mon Jul 25 18:49:23 EDT 2005
+
+* Doc fixes
+
 0.05 Mon May  2 22:12:15 EDT 2005
 
 * Added support for redirects. (Also, added a Hook::LexWrap dependency)
