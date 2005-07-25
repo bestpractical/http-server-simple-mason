@@ -9,9 +9,8 @@ $server->run;
 package MyApp::Server;
 use base qw/HTTP::Server::Simple::Mason/;
 
-sub handler_config {
-    my $self = shift;
-    return ( $self->SUPER::handler_config, comp_root => '/tmp/mason-pages' );
+sub mason_config {
+    return ( comp_root => '/tmp/mason-pages' );
 }
 
 1;
