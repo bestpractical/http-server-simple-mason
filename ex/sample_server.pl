@@ -2,7 +2,7 @@
 use warnings;
 use strict;
 
-my $server = MyApp::Server->new();
+my $server = MyApp::Server->new( 8081);
 
 $server->run;
 
