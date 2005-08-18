@@ -14,9 +14,9 @@ not run its Makefile.PL or Build.PL.
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
 
-SHA1 a1a074e9b6f869090021e957454cc1970f8e8f71 Changes
+SHA1 43433058a7ca103389bec8c9d886b1c7a2826c18 Changes
 SHA1 2a372858cf977048b613139a8b38fe6078c66365 MANIFEST
-SHA1 cd71f260adc72acaee33d69d75da40f708a06933 META.yml
+SHA1 8dd8a9a2b4bfec5d2425d8240d114ff4d415da04 META.yml
 SHA1 86fbfbd339277162b49efdd58a0568c6895ec300 Makefile.PL
 SHA1 02be3a74017679a35b0df586169777fa305664a7 ex/sample_server.pl
 SHA1 05d89e1fe6d49cd518b5a3e6694cc313e655fb02 inc/Module/Install.pm
@@ -27,9 +27,9 @@ SHA1 e094fe96aef06c68d7a424818c12e52b11f1ccdd inc/Module/Install/Makefile.pm
 SHA1 e448c6dc5351ef425e3f8bdbeb642409120bc3ca inc/Module/Install/Metadata.pm
 SHA1 134de6ff2f762873b6a1af950dd53f8e0a801d73 inc/Module/Install/Win32.pm
 SHA1 1ec06df292af7f652d33db6129e9e4c7cc8b5095 inc/Module/Install/WriteAll.pm
-SHA1 5de555b0f37c08fea821423e1a7e976b97648b61 lib/HTTP/Server/Simple/Mason.pm
+SHA1 f0863ceb2340bf8c8b62be6b83f566a46545cb91 lib/HTTP/Server/Simple/Mason.pm
 SHA1 c465222b356e9f0af0721ac0e6473eb534f2d90c t/00smoke.t
-SHA1 878c63e3de99b8a2cd3a3aade2664b68dd550253 t/01live.t
+SHA1 1442b3c9cfd263362b617e4bda1431e81644e371 t/01live.t
 SHA1 aca95653cfce68912e08c57b3a4566207e2f99b3 t/02pod.t
 SHA1 90f0be3e6b0fab021155953742f5cc5c5e47a5aa t/03podcoverage.t
 SHA1 4be7b6d453ccfaaf9b871a89c9074a92817e5058 t/04unhandlederrors.t
@@ -37,7 +37,7 @@ SHA1 ed0059dde546661766f231f2cb2b99ce85b012c1 t/05handlederrors.t
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.4.1 (GNU/Linux)
 
-iD8DBQFDA3UxEi9d9xCOQEYRAnHTAKCq3qWNUAoNyWVfDrYD/9ipDlZGtwCgxQod
-DBV2f+vzUNgaxWK2AnCqhvU=
-=cVnG
+iD8DBQFDBMppEi9d9xCOQEYRAti3AKCDYHDZuHifA0EOBAl7Nxhvl84o2gCfVKFi
++DqpRfls/ym5m8vdG4hSIjI=
+=esVi
 -----END PGP SIGNATURE-----
