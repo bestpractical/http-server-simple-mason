@@ -42,7 +42,7 @@ wrap 'HTML::Mason::FakeApache::send_http_header', pre => sub {
     my $r = shift;
 
     # If we've already sent the HTTP header, don't try to again.
-    if ($r->{'_hssm_http_header_sent'}) {$_[-1] = "1"; return;};
+    if ($r->{'_hssm_http_header_sent'}) {$_[-1] = "1"; return;}
     my $status = $r->header_out('Status') || '200 H::S::Mason OK';
     print STDOUT "HTTP/1.0 $status\n";
     $r->{'_hssm_http_header_sent'} = 1;
@@ -118,7 +118,10 @@ call it the first time it is called.
 
 sub new_handler {
     my $self    = shift;
-    my $handler = HTML::Mason::CGIHandler->new(
+    
+    my $handler_class = $self->handler_class;
+
+    my $handler = $handler_class->new(
         $self->default_mason_config,
         $self->mason_config,
    # Override mason's default output method so 
@@ -138,7 +141,7 @@ sub new_handler {
                        $r->send_http_header();
                 }
             {
-            $r->content_type || $r->content_type('text/htm'); # Set up a default
+            $r->content_type || $r->content_type('text/html'); # Set up a default
 
             if ($r->content_type =~ /charset=([\w-]+)$/ ) {
                 my $enc = $1;
@@ -154,12 +157,42 @@ sub new_handler {
         @_,
     );
 
+    $self->setup_escapes($handler);
+
+    return ($handler);
+}
+
+=head2 handler_class
+
+Returns the name of the Mason handler class invoked in C<new_handler>.  Defaults
+to L<HTML::Mason::CGIHandler>, but in your subclass you may wish to change it to a
+subclass of L<HTML::Mason::CGIHandler>.
+
+=cut
+
+sub handler_class { "HTML::Mason::CGIHandler" }
+
+=head2 setup_escapes $handler
+
+Sets up the Mason escapes for the handler C<$handler>.  For example, the C<h> in
+
+  <% $name | h %>
+
+By default, sets C<h> to C<HTTP::Server::Simple::Mason::escape_utf8>
+and C<u> to C<HTTP::Server::Simple::Mason::escape_uri>, but you can override this in your subclass.
+
+=cut
+
+sub setup_escapes {
+    my $self = shift;
+    my $handler = shift;
+
     $handler->interp->set_escape(
         h => \&HTTP::Server::Simple::Mason::escape_utf8 );
     $handler->interp->set_escape(
         u => \&HTTP::Server::Simple::Mason::escape_uri );
-    return ($handler);
-}
+    return;
+} 
 
 =head2 mason_config
 
