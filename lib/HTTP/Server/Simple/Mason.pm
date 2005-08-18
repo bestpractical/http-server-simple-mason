@@ -83,13 +83,13 @@ sub handle_request {
         $cgi->path_info( $cgi->path_info . "/index.html" );
     }
 
-
     eval { my $m = $self->mason_handler;
 
         $m->handle_cgi_object($cgi) };
 
     if ($@) {
-	$self->handle_error($@);
+        my $error = $@;
+        $self->handle_error($error);
     } 
 }
 

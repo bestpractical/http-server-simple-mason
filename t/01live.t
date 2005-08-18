@@ -34,4 +34,10 @@ sub mason_config {
     return ( comp_root => $root );
 }
 
+sub handle_error {
+    my $self = shift;
+    my $error = shift;
+    die "mason had an error: $error";
+} 
+
 1;
