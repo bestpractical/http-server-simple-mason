@@ -1,7 +1,7 @@
 package HTTP::Server::Simple::Mason;
 use base qw/HTTP::Server::Simple::CGI/;
 use strict;
-our $VERSION = '0.08';
+our $VERSION = '0.09';
 
 =head1 NAME
 
@@ -39,18 +39,9 @@ use HTML::Mason::FakeApache;
 use Hook::LexWrap;
 
 wrap 'HTML::Mason::FakeApache::send_http_header', pre => sub {
-    # If we've already sent the HTTP header, don't try to again.
-    if (not HTML::Mason::Request->instance or
-            HTML::Mason::Request->instance->{'_hssm_http_header_sent'}) {
-        $_[-1] = "1";
-        return;
-    }
-
     my $r = shift;
-
     my $status = $r->header_out('Status') || '200 H::S::Mason OK';
     print STDOUT "HTTP/1.0 $status\n";
-    HTML::Mason::Request->instance->{'_hssm_http_header_sent'} = 1;
 };
 
 =head2 mason_handler 
@@ -142,7 +133,7 @@ sub new_handler {
             # Send headers if they have not been sent by us or by user.
             # We use instance here because if we store $request we get a
             # circular reference and a big memory leak.
-                unless ($m->{'_hssm_http_header_sent'}) {
+                unless ($r->http_header_sent) {
                        $r->send_http_header();
                 }
             {

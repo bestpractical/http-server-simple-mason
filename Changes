@@ -1,7 +1,12 @@
+* Revert most of the 0.07 and 0.08 changes, which were attempts to work around
+  serious bugs in Mason 1.30 that have been fixed in Mason 1.31.
+
 * Create handler_class and setup_escapes hooks in new_handler, so that
   subclasses don't need to copy-and-paste new_handler
  
 * Default content type should be "text/html", not "text/htm"
+
+* Test suite should die on errors
 
 0.08 Thu Aug 18 13:49:47 EDT 2005
 
