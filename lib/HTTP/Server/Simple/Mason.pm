@@ -137,7 +137,7 @@ sub new_handler {
                        $r->send_http_header();
                 }
             {
-            $r->content_type || $r->content_type('text/html'); # Set up a default
+            $r->content_type || $r->content_type('text/html; charset=utf-8'); # Set up a default
 
             if ($r->content_type =~ /charset=([\w-]+)$/ ) {
                 my $enc = $1;
