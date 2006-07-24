@@ -1,5 +1,6 @@
 use Test::More;
 BEGIN {
+    delete @ENV{ qw( http_proxy HTTP_PROXY ) };
     if (eval { require LWP::Simple }) {
 	plan tests => 5;
     } else {
