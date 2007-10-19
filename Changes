@@ -1,3 +1,11 @@
+0.10 Fri Oct 19 12:37:48 BST 2007
+
+* [rt.cpan.org #30113] Cleaning up /tmp directory; predictable tmp filenames 
+    - Don't use predictable tempfile names for our test dir.
+    - Clean up the test dir after running
+      
+    Reported by ANDK
+
 * [rt.cpan.org #20318] HTTP::Server::Simple::Mason fails tests when http_proxy env variable set - Ian Norton
 
 * Revert most of the 0.07 and 0.08 changes, which were attempts to work around
