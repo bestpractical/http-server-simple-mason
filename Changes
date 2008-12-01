@@ -1,3 +1,6 @@
+* 0.11 Mon Dec  1 09:45:52 EST 2008
+    * The previous release didn't actually fix 30113
+
 0.10 Fri Oct 19 12:37:48 BST 2007
 
 * [rt.cpan.org #30113] Cleaning up /tmp directory; predictable tmp filenames 
