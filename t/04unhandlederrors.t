@@ -16,7 +16,7 @@ my $pid=$s->background();
 like($pid, qr/^-?\d+$/,'pid is numeric');
 sleep(1);
 my $content=LWP::Simple::get("http://localhost:13432");
-is($content,'',"Returns an empty page");
+ok(!$content,"Returns an empty page");
 is(kill(9,$pid),1,'Signaled 1 process successfully');
 
 
