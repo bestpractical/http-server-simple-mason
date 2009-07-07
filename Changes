@@ -1,4 +1,7 @@
-* 0.11 Mon Dec  1 09:45:52 EST 2008
+0.12 Tue Jul  7 17:01:55 EDT 2009
+    * Test update. Looks like LWP::Simple now returns undef instead of '' on fail
+
+0.11 Mon Dec  1 09:45:52 EST 2008
     * The previous release didn't actually fix 30113
 
 0.10 Fri Oct 19 12:37:48 BST 2007
