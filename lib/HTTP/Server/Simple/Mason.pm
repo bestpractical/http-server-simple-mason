@@ -79,10 +79,10 @@ sub handle_request {
         $cgi->path_info( $cgi->path_info . "/index.html" );
     }
 
-    eval { my $m = $self->mason_handler;
-
-        $m->handle_cgi_object($cgi) };
-
+    eval {
+        my $m = $self->mason_handler;
+        $m->handle_cgi_object($cgi)
+    };
     if ($@) {
         my $error = $@;
         $self->handle_error($error);
@@ -114,30 +114,30 @@ call it the first time it is called.
 
 sub new_handler {
     my $self    = shift;
-    
+
     my $handler_class = $self->handler_class;
 
     my $handler = $handler_class->new(
         $self->default_mason_config,
         $self->mason_config,
-   # Override mason's default output method so 
-   # we can change the binmode to our encoding if
-   # we happen to be handed character data instead
-   # of binary data.
-   # 
-   # Cloned from HTML::Mason::CGIHandler
-    out_method => 
-      sub {
-            my $m = HTML::Mason::Request->instance;
-            my $r = $m->cgi_request;
-            # Send headers if they have not been sent by us or by user.
+        # Override mason's default output method so 
+        # we can change the binmode to our encoding if
+        # we happen to be handed character data instead
+        # of binary data.
+        #
+        # Cloned from HTML::Mason::CGIHandler
+        out_method => sub {
             # We use instance here because if we store $request we get a
             # circular reference and a big memory leak.
-                unless ($r->http_header_sent) {
-                       $r->send_http_header();
-                }
-            {
-            $r->content_type || $r->content_type('text/html; charset=utf-8'); # Set up a default
+            my $m = HTML::Mason::Request->instance;
+            my $r = $m->cgi_request;
+
+            # Send headers if they have not been sent by us or by user.
+            $r->send_http_header unless $r->http_header_sent;
+
+            # Set up a default
+            $r->content_type('text/html; charset=utf-8')
+                unless $r->content_type;
 
             if ($r->content_type =~ /charset=([\w-]+)$/ ) {
                 my $enc = $1;
@@ -152,8 +152,7 @@ sub new_handler {
             # wouldn't have to keep checking whether headers have been
             # sent and what the $r->method is.  That would require
             # additions to the Request interface, though.
-             print STDOUT grep {defined} @_;
-            }
+            print STDOUT grep {defined} @_;
         },
         @_,
     );
