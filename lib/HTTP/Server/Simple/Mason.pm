@@ -38,8 +38,14 @@ use HTML::Mason::FakeApache;
 
 use Hook::LexWrap;
 
+our $http_header_sent = 0;
+
 wrap 'HTML::Mason::FakeApache::send_http_header', pre => sub {
     my $r = shift;
+
+    $http_header_sent = 1;
+    return if $r->http_header_sent;
+
     my $status = $r->header_out('Status') || '200 H::S::Mason OK';
     print STDOUT "HTTP/1.0 $status\n";
 };
@@ -63,30 +69,86 @@ Called with a CGI object. Invokes mason and runs the request
 
 =cut
 
+my %status_phrase = (
+    '100' => 'Continue',
+    '101' => 'Switching Protocols',
+    '200' => 'OK',
+    '201' => 'Created',
+    '202' => 'Accepted',
+    '203' => 'Non-Authoritative Information',
+    '204' => 'No Content',
+    '205' => 'Reset Content',
+    '206' => 'Partial Content',
+    '300' => 'Multiple Choices',
+    '301' => 'Moved Permanently',
+    '302' => 'Found',
+    '303' => 'See Other',
+    '304' => 'Not Modified',
+    '305' => 'Use Proxy',
+    '307' => 'Temporary Redirect',
+    '400' => 'Bad Request',
+    '401' => 'Unauthorized',
+    '402' => 'Payment Required',
+    '403' => 'Forbidden',
+    '404' => 'Not Found',
+    '405' => 'Method Not Allowed',
+    '406' => 'Not Acceptable',
+    '407' => 'Proxy Authentication Required',
+    '408' => 'Request Time-out',
+    '409' => 'Conflict',
+    '410' => 'Gone',
+    '411' => 'Length Required',
+    '412' => 'Precondition Failed',
+    '413' => 'Request Entity Too Large',
+    '414' => 'Request-URI Too Large',
+    '415' => 'Unsupported Media Type',
+    '416' => 'Requested range not satisfiable',
+    '417' => 'Expectation Failed',
+    '500' => 'Internal Server Error',
+    '501' => 'Not Implemented',
+    '502' => 'Bad Gateway',
+    '503' => 'Service Unavailable',
+    '504' => 'Gateway Time-out',
+    '505' => 'HTTP Version not supported',
+);
+
 sub handle_request {
     my $self = shift;
     my $cgi  = shift;
 
+    local $http_header_sent = 0;
+
+    my $m = $self->mason_handler;
     if (
-        ( !$self->mason_handler->interp->comp_exists( $cgi->path_info ) )
-        && (
-            $self->mason_handler->interp->comp_exists(
-                $cgi->path_info . "/index.html"
-            )
-        )
-      )
-    {
+        !$m->interp->comp_exists( $cgi->path_info )
+        && $m->interp->comp_exists( $cgi->path_info . "/index.html" )
+    ) {
         $cgi->path_info( $cgi->path_info . "/index.html" );
     }
 
-    eval {
-        my $m = $self->mason_handler;
-        $m->handle_cgi_object($cgi)
-    };
-    if ($@) {
-        my $error = $@;
-        $self->handle_error($error);
-    } 
+    local $@;
+    my $status = eval { $m->handle_cgi_object($cgi) };
+    if ( my $error = $@ ) {
+        return $self->handle_error($error);
+    }
+
+    if ( $status && $http_header_sent ) {
+        warn "Request has been aborted or declined with status '$status'"
+            .", but it's too late as HTTP headers has been sent already"
+            unless $status =~ /^200(?:\s|$)/;
+    } elsif ( !$http_header_sent ) {
+        # we didn't send anything
+        # at this moment we can not use $m->cgi_request->send_headers
+
+        $status ||= 204; # No Content
+        my ($code, $reason) = split /\s/, $status, 2;
+        $reason ||= $status_phrase{ $status } || 'No reason';
+        print STDOUT "HTTP/1.0 $status $reason\r\n";
+        print STDOUT "Content-Type: text/html; charset='UTF-8'\r\n";
+        print STDOUT "\r\n";
+        print STDOUT "$code: $reason\n";
+    }
+    return;
 }
 
 =head2 handle_error ERROR
