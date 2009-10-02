@@ -10,7 +10,9 @@ BEGIN {
 
 use_ok( HTTP::Server::Simple::Mason);
 
-my $s=MyApp::Server->new(13432);
+use File::Temp qw/tempdir/;
+my $mason_root = tempdir( CLEANUP => 1 );
+my $s=MyApp::Server->new(13432, $mason_root);
 is($s->port(),13432,"Constructor set port correctly");
 my $pid=$s->background();
 like($pid, qr/^-?\d+$/,'pid is numeric');
@@ -25,10 +27,14 @@ is(kill(9,$pid),1,'Signaled 1 process successfully');
 package MyApp::Server;
 use base qw/HTTP::Server::Simple::Mason/;
 use File::Spec;
-use File::Temp qw/tempdir/;
+
+my $root;
+sub new {
+    $root = $_[2];
+    return shift->SUPER::new( @_ );
+}
 
 sub mason_config {
-    my $root = tempdir(CLEANUP => 1);
     open (PAGE, '>', File::Spec->catfile($root, 'index.html')) or die $!;
     print PAGE '<%die%>';
     close (PAGE);
