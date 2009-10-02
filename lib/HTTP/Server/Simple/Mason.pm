@@ -119,11 +119,12 @@ sub handle_request {
     local $http_header_sent = 0;
 
     my $m = $self->mason_handler;
-    if (
-        !$m->interp->comp_exists( $cgi->path_info )
-        && $m->interp->comp_exists( $cgi->path_info . "/index.html" )
-    ) {
-        $cgi->path_info( $cgi->path_info . "/index.html" );
+    unless ( $m->interp->comp_exists( $cgi->path_info ) ) {
+        my $path = $cgi->path_info;
+        $path .= '/' unless $path =~ m{/$};
+        $path .= 'index.html';
+        $cgi->path_info( $path )
+            if $m->interp->comp_exists( $path );
     }
 
     local $@;
