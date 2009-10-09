@@ -14,30 +14,31 @@ not run its Makefile.PL or Build.PL.
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
 
-SHA1 6ac8d84ae2d14fc6f5572ce286f486b98db48dbf Changes
-SHA1 2a372858cf977048b613139a8b38fe6078c66365 MANIFEST
-SHA1 e71d39c25c95434f87c2c0324f6f96d2bae851d1 META.yml
+SHA1 58a84cdc4f1a68d621a173222b8f156748ec8868 Changes
+SHA1 1907f0caadc642dede735a41860b342ce5cae1bc MANIFEST
+SHA1 e476d8bd724d46eb9e255cc8afc98b92269e2255 MANIFEST.SKIP
+SHA1 2b2897c7e56142ec0769a2d3f067937d5e080019 META.yml
 SHA1 86fbfbd339277162b49efdd58a0568c6895ec300 Makefile.PL
 SHA1 02be3a74017679a35b0df586169777fa305664a7 ex/sample_server.pl
-SHA1 5c9e093b0facca46d50e3c69d5569aa7a98db0b8 inc/Module/Install.pm
-SHA1 465acb50b9006ce61f58a7bd02d0bb029ddceaa6 inc/Module/Install/Base.pm
-SHA1 8356d82167fc00550b4a3ceea8bd852a374d7509 inc/Module/Install/Can.pm
-SHA1 b47ce07fa6d6e38e3daa6cfc752b23f59a64754c inc/Module/Install/Fetch.pm
-SHA1 37ed4ccd7aba10119e6f2993b8082674ce2e5961 inc/Module/Install/Makefile.pm
-SHA1 4aa1c578faad51f31e62bed7b28d3d42b88219c3 inc/Module/Install/Metadata.pm
-SHA1 d7529d795a1304c88253b26a9089913edf31ae5e inc/Module/Install/Win32.pm
-SHA1 2a74aba5a78e7ab2776382e42106ebe941c2ac28 inc/Module/Install/WriteAll.pm
-SHA1 07bc43f88ed5d71deb45d0c7ccc3719d65cf2c96 lib/HTTP/Server/Simple/Mason.pm
+SHA1 fd5f3c4f0418efee3b9b16cf8c3902e8374909df inc/Module/Install.pm
+SHA1 7cd7c349afdf3f012e475507b1017bdfa796bfbd inc/Module/Install/Base.pm
+SHA1 ba186541bbf6439111f01fc70769cf24d22869bf inc/Module/Install/Can.pm
+SHA1 aaa50eca0d7751db7a4d953fac9bc72c6294e238 inc/Module/Install/Fetch.pm
+SHA1 3e83972921d54198d1246f7278f08664006cd65d inc/Module/Install/Makefile.pm
+SHA1 12bf1867955480d47d5171a9e9c6a96fabe0b58f inc/Module/Install/Metadata.pm
+SHA1 f7ee667e878bd2faf22ee9358a7b5a2cc8e91ba4 inc/Module/Install/Win32.pm
+SHA1 8ed29d6cf217e0977469575d788599cbfb53a5ca inc/Module/Install/WriteAll.pm
+SHA1 c5b2a151ab1be93339c916fd64a598779416b2ed lib/HTTP/Server/Simple/Mason.pm
 SHA1 c465222b356e9f0af0721ac0e6473eb534f2d90c t/00smoke.t
-SHA1 862ae0d597b31748124f37861fbc86a8329865aa t/01live.t
+SHA1 6667b5a7d2c5c1c9582930d8eb784fbea15672e5 t/01live.t
 SHA1 aca95653cfce68912e08c57b3a4566207e2f99b3 t/02pod.t
 SHA1 90f0be3e6b0fab021155953742f5cc5c5e47a5aa t/03podcoverage.t
-SHA1 14d97414452164980dd6824b87730fc7a2804ff5 t/04unhandlederrors.t
-SHA1 5ffdb15e2d3a267b3ecb64a02bc4e4e96d2a1f13 t/05handlederrors.t
+SHA1 1562a9be9217ee832f2e12d7b7992438b878044c t/04unhandlederrors.t
+SHA1 69ac9d80ff673410c3fd19b832c2828b0ed85648 t/05handlederrors.t
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.9 (Darwin)
+Version: GnuPG v1.4.9 (GNU/Linux)
 
-iEYEARECAAYFAkkz+M0ACgkQEi9d9xCOQEbmGACeOBlEnCe6P+zzxs5SF6SJbg/3
-ykQAoKHSf0isyb7Zdo4BvEZ+1cOxjsAS
-=IaWi
+iEYEARECAAYFAkrPiYsACgkQEi9d9xCOQEY4hQCeMbt+emsNJb8tyTQcD7OYTycw
+0UoAoJKE2zsoiNhIW1cIY9KJGFoKvFkn
+=OXUc
 -----END PGP SIGNATURE-----
