@@ -1,3 +1,9 @@
+0.13 Fri Oct  9 15:01:07 EDT 2009
+
+    * Better cleanup temp files after tests
+    * No longer add a double / in the path when testing for index.html
+    * Better support for sending custom HTTP statuses in $m->abort
+
 0.12 Tue Jul  7 17:01:55 EDT 2009
     * Test update. Looks like LWP::Simple now returns undef instead of '' on fail
 
