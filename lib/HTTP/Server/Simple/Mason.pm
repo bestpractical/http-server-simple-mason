@@ -1,7 +1,7 @@
 package HTTP::Server::Simple::Mason;
 use base qw/HTTP::Server::Simple::CGI/;
 use strict;
-our $VERSION = '0.12';
+our $VERSION = '0.13';
 
 =head1 NAME
 
