@@ -155,7 +155,7 @@ sub handle_request {
 =head2 handle_error ERROR
 
 If the call to C<handle_request> dies, C<handle_error> is called with the
-exception (that is, C<$@>).  By default, it does nothing; it can be overriden
+exception (that is, C<$@>).  By default, it does nothing; it can be overridden
 by your subclass.
 
 =cut
